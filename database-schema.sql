@@ -19,3 +19,32 @@ CREATE TABLE tickets (
   assigned_to UUID REFERENCES profiles(id),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
+
+
+-- Enable Row Level Security
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tickets ENABLE ROW LEVEL SECURITY;
+
+-- PROFILES POLICIES
+-- Allow all authenticated users to read profiles (needed to display names/roles)
+CREATE POLICY "Authenticated users can view profiles" ON profiles 
+FOR SELECT TO authenticated USING (true);
+
+-- TICKETS POLICIES
+-- 1. Users can insert their own tickets
+CREATE POLICY "Users can create tickets" ON tickets 
+FOR INSERT TO authenticated WITH CHECK (auth.uid() = created_by);
+
+-- 2. Clients can view their own tickets. Agents and Admins can view all tickets.
+CREATE POLICY "Users can view relevant tickets" ON tickets 
+FOR SELECT TO authenticated USING (
+  auth.uid() = created_by OR 
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('agent', 'admin'))
+);
+
+-- 3. Clients can update their own tickets. Agents and Admins can update any ticket.
+CREATE POLICY "Users can update relevant tickets" ON tickets 
+FOR UPDATE TO authenticated USING (
+  auth.uid() = created_by OR 
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('agent', 'admin'))
+);
