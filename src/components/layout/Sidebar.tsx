@@ -18,7 +18,8 @@ export function Sidebar() {
       
       <nav className={styles.nav}>
         <Link to="/dashboard" className={styles.link}>Tickets Board</Link>
-        {/* Futuros links irão aqui */}
+        {/* Aqui está o link que vai fazer o menu aparecer! */}
+        <Link to="/dashboard/new" className={styles.link}>+ New Ticket</Link>
       </nav>
 
       <div className={styles.footer}>

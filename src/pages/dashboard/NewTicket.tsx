@@ -45,6 +45,10 @@ export function NewTicket() {
   };
 
   return (
+
+    <div className={styles.wrapper}>
+
+    
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Open New Ticket</h1>
@@ -95,6 +99,8 @@ export function NewTicket() {
           </button>
         </div>
       </form>
+    </div>
+
     </div>
   );
 }

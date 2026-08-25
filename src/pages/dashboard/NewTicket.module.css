@@ -1,3 +1,22 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Subtraímos 4rem (2 do topo + 2 do fundo) do padding que o DashboardLayout tem */
+  min-height: calc(100vh - 4rem); 
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  background-color: white;
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ... mantenha o restante do código (header, form, inputs) intacto ... */
+
 .container {
   max-width: 800px;
   background-color: white;
