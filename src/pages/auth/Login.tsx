@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import './Login.css';
 
 export function Login() {
   const [email, setEmail] = useState('');
@@ -22,7 +23,6 @@ export function Login() {
     if (error) {
       setError(error.message);
     } else {
-      // Redirecionamento adicionado!
       navigate('/dashboard', { replace: true });
     }
     
@@ -30,39 +30,41 @@ export function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h1>Ticket Flow</h1>
-      <p>Sign in to your account</p>
-      
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input 
-            id="email"
-            type="email" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+    <div className="login-wrapper">
+      <div className="login-container">
+        <h1>Ticket Flow</h1>
+        <p>Sign in to your account</p>
         
-        <div>
-          <label htmlFor="password">Password</label>
-          <input 
-            id="password"
-            type="password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <form className="login-form" onSubmit={handleLogin}>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input 
+              id="email"
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input 
+              id="password"
+              type="password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+          {error && <p className="error-message">{error}</p>}
 
-        <button type="submit" disabled={loading}>
-          {loading ? 'Signing in...' : 'Sign In'}
-        </button>
-      </form>
+          <button className="submit-btn" type="submit" disabled={loading}>
+            {loading ? 'Signing in...' : 'Sign In'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
