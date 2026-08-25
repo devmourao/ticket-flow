@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 
 export function Login() {
@@ -6,6 +7,7 @@ export function Login() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,8 +22,8 @@ export function Login() {
     if (error) {
       setError(error.message);
     } else {
-      // In Issue #6 we will handle the redirect logic
-      console.log('User logged in successfully!');
+      // Redirecionamento adicionado!
+      navigate('/dashboard', { replace: true });
     }
     
     setLoading(false);
