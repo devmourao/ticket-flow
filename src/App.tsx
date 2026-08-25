@@ -6,8 +6,8 @@ function App() {
 
   return (
     <>
-<div>
-      <h1>Ticket Flow</h1>
+    <div className='App'>
+      <h1>Ticket Flow</h1>  
       <p>System initialized.</p>
     </div>
     </>
