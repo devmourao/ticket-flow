@@ -4,6 +4,7 @@ import { Login } from './pages/auth/Login';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { DashboardLayout } from './components/layout/DashboardLayout';
 import { NewTicket } from './pages/dashboard/NewTicket';
+import { TicketBoard } from './pages/dashboard/TicketBoard';
 
 function App() {
   return (
@@ -16,15 +17,13 @@ function App() {
           <Route element={<DashboardLayout />}>
             
             {/* Rota base do Dashboard */}
-            <Route path="/dashboard" element={
-              <div>
-                <h1>Tickets Board</h1>
-                <p>Select an option from the menu.</p>
-              </div>
-            } />
+              <Route path="/dashboard" element={<TicketBoard />} />
+            
             
             {/* Nossa nova rota do Formulário */}
             <Route path="/dashboard/new" element={<NewTicket />} />
+            {/* Rota base do Dashboard */}
+          
             
           </Route>
         </Route>
