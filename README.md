@@ -1,75 +1,47 @@
-# React + TypeScript + Vite
+# Ticket Flow 🎫
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, secure, and role-based helpdesk and ticket management system.
 
-Currently, two official plugins are available:
+## Overview
+Ticket Flow is a streamlined ticketing system built to manage customer support requests efficiently. It features a robust authentication flow and strict database-level security to ensure users only interact with their authorized data. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
+- **Role-Based Access Control (RBAC):** Distinct permissions for `client`, `agent`, and `admin` profiles.
+- **Secure Authentication:** Powered by Supabase Auth with protected internal routes.
+- **Ticket Management:** Create, view, and update tickets through an intuitive interface.
+- **Data Privacy:** Strict Supabase Row Level Security (RLS) policies preventing unauthorized data access.
 
-## React Compiler
+## Tech Stack
+- **Frontend:** React, TypeScript, Vite
+- **Styling:** CSS Modules
+- **Backend / BaaS:** Supabase (PostgreSQL, Auth, RLS)
+- **Routing:** React Router DOM
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Running Locally
 
-## Expanding the ESLint configuration
+1. **Clone the repository:**
+   \`\`\`bash
+   git clone https://github.com/YOUR_USERNAME/ticket-flow.git
+   \`\`\`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. **Install dependencies:**
+   \`\`\`bash
+   cd ticket-flow
+   npm install
+   \`\`\`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+3. **Set up environment variables:**
+   Create a \`.env.local\` file in the root directory and add your Supabase credentials:
+   \`\`\`env
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   \`\`\`
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+4. **Start the development server:**
+   \`\`\`bash
+   npm run dev
+   \`\`\`
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+## Author
+**Marcos Ferreira Mourão**
+- Portfolio: [dev.mourao.info](http://dev.mourao.info/)
