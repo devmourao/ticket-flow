@@ -21,7 +21,7 @@ Ticket Flow is a streamlined ticketing system built to manage customer support r
 
 1. **Clone the repository:**
    \`\`\`bash
-   git clone https://github.com/YOUR_USERNAME/ticket-flow.git
+   git clone https://github.com/devmourao/ticket-flow.git
    \`\`\`
 
 2. **Install dependencies:**
