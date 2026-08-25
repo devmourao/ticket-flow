@@ -35,6 +35,25 @@ export function TicketBoard() {
     }
   };
 
+  const updateTicketStatus = async (id: string, newStatus: Ticket['status']) => {
+    try {
+      // 1. Atualiza no banco de dados
+      const { error: updateError } = await supabase
+        .from('tickets')
+        .update({ status: newStatus })
+        .eq('id', id);
+
+      if (updateError) throw updateError;
+
+      // 2. Atualiza o estado local do React para refletir a mudança instantaneamente na tela
+      setTickets(tickets.map(ticket => 
+        ticket.id === id ? { ...ticket, status: newStatus } : ticket
+      ));
+    } catch (err: any) {
+      alert(err.message || 'Failed to update ticket status');
+    }
+  };
+
   if (loading) return <div className={styles.loading}>Loading tickets...</div>;
   if (error) return <div className={styles.error}>{error}</div>;
 
@@ -61,8 +80,22 @@ export function TicketBoard() {
                   {new Date(ticket.created_at).toLocaleDateString()}
                 </span>
               </div>
+              
               <h3 className={styles.title}>{ticket.title}</h3>
               <p className={styles.description}>{ticket.description}</p>
+              
+              {/* Nova seção de ações do Card */}
+              <div className={styles.cardActions}>
+                <select 
+                  value={ticket.status} 
+                  onChange={(e) => updateTicketStatus(ticket.id, e.target.value as Ticket['status'])}
+                  className={styles.statusSelect}
+                >
+                  <option value="open">Open</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="resolved">Resolved</option>
+                </select>
+              </div>
             </div>
           ))}
         </div>
