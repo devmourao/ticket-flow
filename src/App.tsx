@@ -10,7 +10,7 @@ import { Profile } from './pages/dashboard/Profile';
 
 function App() {
   return (
-    // Envolvemos a aplicação aqui:
+  
     <AuthProvider>
       <BrowserRouter>
         <Routes>
