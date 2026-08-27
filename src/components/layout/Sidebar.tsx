@@ -41,7 +41,7 @@ export function Sidebar() {
         )}
       </nav>
 
-      {/* Novo Widget de Usuário no Rodapé */}
+  
       <div className={styles.footer}>
         
         {isDropdownOpen && (

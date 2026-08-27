@@ -53,7 +53,7 @@ export function Profile() {
         )}
 
 <form onSubmit={handleUpdateProfile} className={styles.form}>
-          {/* 1. Nome Completo (Editável e no topo) */}
+       
           <div className={styles.formGroup}>
             <label htmlFor="fullName">Full Name</label>
             <input
@@ -61,7 +61,7 @@ export function Profile() {
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder="E.g., Marcos Ferreira"
+              placeholder="E.g., Marcos Mourão"
               required
             />
           </div>

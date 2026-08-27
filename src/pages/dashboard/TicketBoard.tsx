@@ -37,7 +37,7 @@ export function TicketBoard() {
 
   const updateTicketStatus = async (id: string, newStatus: Ticket['status']) => {
     try {
-      // 1. Atualiza no banco de dados
+
       const { error: updateError } = await supabase
         .from('tickets')
         .update({ status: newStatus })
@@ -45,7 +45,7 @@ export function TicketBoard() {
 
       if (updateError) throw updateError;
 
-      // 2. Atualiza o estado local do React para refletir a mudança instantaneamente na tela
+    
       setTickets(tickets.map(ticket => 
         ticket.id === id ? { ...ticket, status: newStatus } : ticket
       ));
@@ -84,7 +84,7 @@ export function TicketBoard() {
               <h3 className={styles.title}>{ticket.title}</h3>
               <p className={styles.description}>{ticket.description}</p>
               
-              {/* Nova seção de ações do Card */}
+            
               <div className={styles.cardActions}>
                 <select 
                   value={ticket.status} 
