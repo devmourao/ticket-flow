@@ -50,3 +50,132 @@
 .logoutBtn:hover {
   background-color: #c82333;
 }
+
+.footer {
+  margin-top: auto;
+  position: relative; /* Necessário para ancorar o menu flutuante */
+}
+
+
+.userWidget {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  user-select: none;
+}
+
+.userWidget:hover {
+  background-color: #333;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #e53e3e;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.userName {
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userRole {
+  color: #a0aec0;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.chevron {
+  color: #718096;
+  font-size: 0.8rem;
+}
+
+
+.dropdown {
+  position: absolute;
+  bottom: calc(100% + 8px); /* Aparece logo acima do widget */
+  left: 0;
+  width: 100%;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 10;
+  animation: slideUp 0.2s ease;
+}
+
+.dropdownSection {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #444;
+  padding: 4px 0;
+}
+
+.dropdownSection:last-child {
+  border-bottom: none;
+}
+
+.dropdownLabel {
+  color: #718096;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  padding: 8px 16px 4px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.dropdownItem {
+  background: none;
+  border: none;
+  color: #e2e8f0;
+  text-align: left;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  transition: background-color 0.15s;
+}
+
+.dropdownItem:hover {
+  background-color: #333;
+}
+
+.dropdownItem.active {
+  color: #63b3ed;
+  font-weight: bold;
+  background-color: rgba(99, 179, 237, 0.1);
+}
+
+.logoutText {
+  color: #fc8181;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

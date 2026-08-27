@@ -91,10 +91,10 @@
 }
 
 
-/* Adicione no final do arquivo existente */
+
 
 .cardActions {
-  margin-top: auto; /* Empurra o controle para o fundo do card */
+  margin-top: auto; 
   padding-top: 1rem;
   border-top: 1px solid #eee;
   display: flex;
