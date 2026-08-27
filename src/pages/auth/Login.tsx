@@ -15,9 +15,24 @@ export function Login() {
     setLoading(true);
     setError(null);
 
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      navigate('/dashboard', { replace: true });
+    }
+    setLoading(false);
+  };
+
+
+  const handleGuestLogin = async () => {
+    setLoading(true);
+    setError(null);
+
     const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+      email: 'guest@ticketflow.com',
+      password: 'Teste123456', 
     });
 
     if (error) {
@@ -25,7 +40,6 @@ export function Login() {
     } else {
       navigate('/dashboard', { replace: true });
     }
-    
     setLoading(false);
   };
 
@@ -39,22 +53,16 @@ export function Login() {
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input 
-              id="email"
-              type="email" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+              id="email" type="email" value={email}
+              onChange={(e) => setEmail(e.target.value)} required
             />
           </div>
           
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input 
-              id="password"
-              type="password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              id="password" type="password" value={password}
+              onChange={(e) => setPassword(e.target.value)} required
             />
           </div>
 
@@ -64,6 +72,20 @@ export function Login() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
+
+        {/* Divisor e Botão de Guest */}
+        <div className="divider">
+          <span>OR</span>
+        </div>
+        
+        <button 
+          className="guest-btn" 
+          type="button" 
+          onClick={handleGuestLogin} 
+          disabled={loading}
+        >
+          Login as Demo Account (Read-Only)
+        </button>
       </div>
     </div>
   );

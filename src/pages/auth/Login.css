@@ -92,3 +92,48 @@
   background-color: #999;
   cursor: not-allowed;
 }
+
+
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: #999;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider span {
+  padding: 0 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.guest-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: white;
+  color: #1a1a1a;
+  border: 1px solid #1a1a1a;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.guest-btn:hover {
+  background-color: #f4f6f8;
+}
+
+.guest-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
