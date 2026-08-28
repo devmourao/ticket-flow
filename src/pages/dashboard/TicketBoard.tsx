@@ -10,6 +10,7 @@ interface Ticket {
   status: 'open' | 'in_progress' | 'resolved';
   created_at: string;
   assigned_to: string | null;
+  created_by: string; 
 }
 
 export function TicketBoard() {
@@ -71,15 +72,24 @@ export function TicketBoard() {
     return <div className={styles.loading}>Loading tickets...</div>;
   }
 
-
-
-if (loading) {
-    return <div className={styles.loading}>Loading tickets...</div>;
-  }
-
   const isClient = activeRole === 'client';
   const canAssign = activeRole === 'agent' || activeRole === 'admin' || activeRole === 'demo';
 
+ 
+  const filteredTickets = tickets.filter(ticket => {
+   
+    if (activeRole === 'admin') return true;
+    
+   
+    if (activeRole === 'client') return ticket.created_by === user?.id;
+    
+    
+    if (activeRole === 'agent') {
+      return ticket.assigned_to === null || ticket.assigned_to === user?.id;
+    }
+    
+    return false;
+  });
 
   const getBoardTitle = () => {
     if (activeRole === 'client') return 'My Tickets';
@@ -95,17 +105,17 @@ if (loading) {
 
   return (
     <div className={styles.board}>
-   
       <div className={styles.header}>
         <h1>{getBoardTitle()}</h1>
         <p>{getBoardDescription()}</p>
       </div>
 
       <div className={styles.grid}>
-        {tickets.length === 0 ? (
-          <div className={styles.emptyState}>No tickets found.</div>
+     
+        {filteredTickets.length === 0 ? (
+          <div className={styles.emptyState}>No tickets found for this view.</div>
         ) : (
-          tickets.map((ticket) => (
+          filteredTickets.map((ticket) => (
             <div key={ticket.id} className={styles.card}>
               
               <div className={styles.cardHeader}>
@@ -122,7 +132,6 @@ if (loading) {
               
               <div className={styles.cardFooter}>
                 
-             
                 {isClient ? (
                   ticket.status === 'resolved' ? (
                     <button 
@@ -135,7 +144,6 @@ if (loading) {
                     <span className={styles.lockedStatus}>Status Locked (Staff Only)</span>
                   )
                 ) : (
-                 
                   <select
                     value={ticket.status}
                     onChange={(e) => updateTicketStatus(ticket.id, e.target.value)}
@@ -147,7 +155,6 @@ if (loading) {
                   </select>
                 )}
 
-              
                 {canAssign && (
                   <div className={styles.assignmentArea}>
                     {ticket.assigned_to === user?.id ? (
