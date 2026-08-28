@@ -10,7 +10,7 @@ interface Ticket {
   status: 'open' | 'in_progress' | 'resolved';
   created_at: string;
   assigned_to: string | null;
-  created_by: string; 
+  created_by: string;
 }
 
 export function TicketBoard() {
@@ -18,9 +18,19 @@ export function TicketBoard() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
 
+
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
+
   useEffect(() => {
     fetchTickets();
-  }, [activeRole]); 
+  }, [activeRole]);
+
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [statusFilter, activeRole, itemsPerPage]);
 
   const fetchTickets = async () => {
     setLoading(true);
@@ -75,21 +85,31 @@ export function TicketBoard() {
   const isClient = activeRole === 'client';
   const canAssign = activeRole === 'agent' || activeRole === 'admin' || activeRole === 'demo';
 
- 
-  const filteredTickets = tickets.filter(ticket => {
-   
+
+  const rbacFilteredTickets = tickets.filter(ticket => {
     if (activeRole === 'admin') return true;
-    
-   
     if (activeRole === 'client') return ticket.created_by === user?.id;
-    
-    
-    if (activeRole === 'agent') {
-      return ticket.assigned_to === null || ticket.assigned_to === user?.id;
-    }
-    
+    if (activeRole === 'agent') return ticket.assigned_to === null || ticket.assigned_to === user?.id;
     return false;
   });
+
+
+  const metrics = {
+    total: rbacFilteredTickets.length,
+    open: rbacFilteredTickets.filter(t => t.status === 'open').length,
+    resolved: rbacFilteredTickets.filter(t => t.status === 'resolved').length,
+  };
+
+
+  const displayTickets = rbacFilteredTickets.filter(ticket => {
+    if (statusFilter === 'all') return true;
+    return ticket.status === statusFilter;
+  });
+
+
+  const totalPages = Math.ceil(displayTickets.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentTickets = displayTickets.slice(startIndex, startIndex + itemsPerPage);
 
   const getBoardTitle = () => {
     if (activeRole === 'client') return 'My Tickets';
@@ -97,27 +117,54 @@ export function TicketBoard() {
     return 'All Tickets';
   };
 
-  const getBoardDescription = () => {
-    if (activeRole === 'client') return 'Track the status of your support requests.';
-    if (activeRole === 'agent') return 'Manage your assigned tasks and open requests.';
-    return 'Global overview of all system tickets.';
-  };
-
   return (
     <div className={styles.board}>
       <div className={styles.header}>
-        <h1>{getBoardTitle()}</h1>
-        <p>{getBoardDescription()}</p>
+        <div>
+          <h1>{getBoardTitle()}</h1>
+          <p>
+            {activeRole === 'client' 
+              ? 'Track the status of your support requests.' 
+              : 'Manage your assigned tasks and open requests.'}
+          </p>
+        </div>
+        
+
+        {!isClient && (
+          <div className={styles.filterControl}>
+            <label>Filter by Status:</label>
+            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+              <option value="all">All Tickets</option>
+              <option value="open">Open</option>
+              <option value="in_progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+            </select>
+          </div>
+        )}
+      </div>
+
+
+      <div className={styles.metricsContainer}>
+        <div className={styles.metricCard}>
+          <span className={styles.metricLabel}>Total Tickets</span>
+          <strong className={styles.metricValue}>{metrics.total}</strong>
+        </div>
+        <div className={styles.metricCard}>
+          <span className={styles.metricLabel}>Needs Action (Open)</span>
+          <strong className={`${styles.metricValue} ${styles.textWarning}`}>{metrics.open}</strong>
+        </div>
+        <div className={styles.metricCard}>
+          <span className={styles.metricLabel}>Resolved</span>
+          <strong className={`${styles.metricValue} ${styles.textSuccess}`}>{metrics.resolved}</strong>
+        </div>
       </div>
 
       <div className={styles.grid}>
-     
-        {filteredTickets.length === 0 ? (
-          <div className={styles.emptyState}>No tickets found for this view.</div>
+        {currentTickets.length === 0 ? (
+          <div className={styles.emptyState}>No tickets found for the current filters.</div>
         ) : (
-          filteredTickets.map((ticket) => (
+          currentTickets.map((ticket) => (
             <div key={ticket.id} className={styles.card}>
-              
               <div className={styles.cardHeader}>
                 <span className={`${styles.badge} ${styles[ticket.status]}`}>
                   {ticket.status.replace('_', ' ').toUpperCase()}
@@ -131,13 +178,9 @@ export function TicketBoard() {
               <p className={styles.description}>{ticket.description}</p>
               
               <div className={styles.cardFooter}>
-                
                 {isClient ? (
                   ticket.status === 'resolved' ? (
-                    <button 
-                      onClick={() => updateTicketStatus(ticket.id, 'open')}
-                      className={styles.reopenBtn}
-                    >
+                    <button onClick={() => updateTicketStatus(ticket.id, 'open')} className={styles.reopenBtn}>
                       ↺ Reopen Ticket
                     </button>
                   ) : (
@@ -162,21 +205,50 @@ export function TicketBoard() {
                     ) : ticket.assigned_to ? (
                       <span className={styles.assignedBadgeTaken}>Assigned</span>
                     ) : (
-                      <button 
-                        onClick={() => handleAssignToMe(ticket.id)} 
-                        className={styles.assignBtn}
-                      >
+                      <button onClick={() => handleAssignToMe(ticket.id)} className={styles.assignBtn}>
                         Assign to me
                       </button>
                     )}
                   </div>
                 )}
-
               </div>
             </div>
           ))
         )}
       </div>
+
+  
+      {displayTickets.length > 0 && (
+        <div className={styles.paginationArea}>
+          <div className={styles.pageSettings}>
+            <label>Items per page:</label>
+            <select value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
+              <option value={2}>2</option> 
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+            </select>
+          </div>
+          
+          <div className={styles.pageControls}>
+            <button 
+              disabled={currentPage === 1} 
+              onClick={() => setCurrentPage(p => p - 1)}
+            >
+              ← Previous
+            </button>
+            <span className={styles.pageInfo}>
+              Page {currentPage} of {totalPages || 1}
+            </span>
+            <button 
+              disabled={currentPage === totalPages} 
+              onClick={() => setCurrentPage(p => p + 1)}
+            >
+              Next →
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

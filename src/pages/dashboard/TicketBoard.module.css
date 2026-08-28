@@ -193,3 +193,141 @@
   font-size: 0.8rem;
   font-weight: bold;
 }
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.filterControl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.filterControl label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #666;
+}
+
+.filterControl select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.metricsContainer {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.metricCard {
+  flex: 1;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  border: 1px solid #eaeaea;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metricLabel {
+  font-size: 0.85rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.metricValue {
+  font-size: 2rem;
+  color: #1a1a1a;
+  line-height: 1;
+}
+
+.textWarning { color: #d97706; }
+.textSuccess { color: #15803d; }
+
+/* --- CONTROLES DE PAGINAÇÃO --- */
+.paginationArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+  background-color: transparent;
+}
+
+.pageSettings {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.pageSettings select {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.pageControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pageControls button {
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pageControls button:hover:not(:disabled) {
+  background-color: #f8f9fa;
+  border-color: #ccc;
+}
+
+.pageControls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+}
+
+/* Responsividade Básica */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .metricsContainer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .paginationArea {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
