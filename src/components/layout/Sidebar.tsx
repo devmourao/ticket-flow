@@ -23,6 +23,13 @@ export function Sidebar() {
   const handleRoleChange = (role: Role) => {
     setActiveRole(role);
     setIsDropdownOpen(false);
+    navigate('/dashboard')
+  };
+
+const getTicketMenuName = () => {
+    if (activeRole === 'client') return 'My Tickets';
+    if (activeRole === 'agent') return 'Ticket Queue';
+    return 'All Tickets'; // Visão do Admin e Demo
   };
 
   return (
@@ -32,12 +39,22 @@ export function Sidebar() {
       </div>
       
       <nav className={styles.nav}>
-        <Link to="/dashboard" className={styles.link}>Tickets Board</Link>
-        <Link to="/dashboard/new" className={styles.link}>+ New Ticket</Link>
+        {/* 1. Menu Principal (Dinâmico) */}
+        <Link to="/dashboard" className={styles.link}>
+          {getTicketMenuName()}
+        </Link>
         
-       
+        {/* 2. Novo Ticket (Escondido para Agentes) */}
+        {activeRole !== 'agent' && (
+          <Link to="/dashboard/new" className={styles.link}>+ New Ticket</Link>
+        )}
+        
+        {/* 3. Área de Administração (Com divisor visual) */}
         {activeRole === 'admin' && (
-          <Link to="/dashboard/users" className={styles.link}>Users (Admin)</Link>
+          <>
+            <div className={styles.navDivider}>Administration</div>
+            <Link to="/dashboard/users" className={styles.link}>User Management</Link>
+          </>
         )}
       </nav>
 

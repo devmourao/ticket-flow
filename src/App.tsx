@@ -7,10 +7,10 @@ import { DashboardLayout } from './components/layout/DashboardLayout';
 import { NewTicket } from './pages/dashboard/NewTicket';
 import { TicketBoard } from './pages/dashboard/TicketBoard';
 import { Profile } from './pages/dashboard/Profile';
+import { UserBoard } from './pages/dashboard/UserBoard';
 
 function App() {
   return (
-  
     <AuthProvider>
       <BrowserRouter>
         <Routes>
@@ -20,8 +20,8 @@ function App() {
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<TicketBoard />} />
               <Route path="/dashboard/new" element={<NewTicket />} />
-              <Route path="/dashboard/new" element={<NewTicket />} />
               <Route path="/dashboard/profile" element={<Profile />} />
+              <Route path="/dashboard/users" element={<UserBoard />} />
             </Route>
           </Route>
           
